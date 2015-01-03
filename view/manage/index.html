@@ -1,0 +1,52 @@
+{% extends "manage/layout.html" %}
+
+{% block content %}
+	<div class="container">
+		<h1 class="title">BANWIDTH RULES</h1>
+		<a href="#" class="md-trigger btn big" data-modal="modal-add">ADD RULE</a>
+		<table>
+		{% for ip, conf in data %}
+			<tr class='danger'>
+				<td>{{ ip }}</td>
+				<td>{{ conf.download }}</td>
+				<td>{{ conf.upload }}</td>
+				<td><a href="#" class='md-trigger btn small' data-modal="modal-{{ loop.index }}"><i class='fa fa-pencil'></i> Edit</a><a href={{ "manage/delete/" ~ ip }} class='btn small'><i class='fa fa-trash'></i> Delete</a></td>
+			</tr>
+		{% endfor %}
+		</table>
+	</div>
+{% endblock %}
+
+{% block modals %}
+	{% for ip, conf in data %}
+	<div class="md-modal md-effect-1" id="modal-{{ loop.index }}">
+		<div class="md-content">
+			<h3>ADD RULE</h3>
+			<div>
+				<form action="manage/edit/{{ ip }}" method="POST">
+				<table>
+					<tr>
+						<td>IP / CLIENT</td>
+						<td><input type="text" name="ip" value="{{ ip }}"></td>
+					</tr>
+					<tr>
+						<td>DOWNLOAD LIMIT</td>
+						<td><input type="text" name="download" value="{{ conf.download }}"></td>
+					</tr>
+					<tr>
+						<td>UPLOAD LIMIT</td>
+						<td><input type="text" name="upload" value="{{ conf.upload }}"></td>
+					</tr>
+				</table>
+				<div class="right action">
+					<span class="md-close">Cancel</span> or 
+					<input type="submit" href="#" class="md-trigger btn" data-modal="modal-{{ loop.index }}" value="SAVE">
+				</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	{% endfor %}
+{% endblock %}
+
+

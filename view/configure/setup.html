@@ -1,0 +1,57 @@
+<html>
+<head>
+	<title>Bandwidth Management | Dashboard</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="css/skeleton.css">
+	<link rel="stylesheet" type="text/css" href="css/normalize.css">
+	<style type="text/css">
+		body{
+			background-color: #181818;
+		}
+
+		.container{
+			background-color: #ffffff;
+			padding: 10px;
+			top:30%;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<h1>Basic Configuration</h1>
+		<form action="setup/save" method="post">
+		<div class="row">
+			<div class="six columns">
+				<label for="exampleRecipientInput">Interface Connected To Internet</label>
+				<select name="in" class="u-full-width" id="exampleRecipientInput">
+					{% for iface in ifaces %}
+						<option value="{{ iface }}">{{ iface }}</option>
+					{% endfor %}
+				</select>
+			</div>
+			<div class="six columns">
+				<label for="exampleRecipientInput">Client Interface</label>
+				<select name="out" class="u-full-width" id="exampleRecipientInput">
+					{% for iface in ifaces %}
+						<option value="{{ iface }}">{{ iface }}</option>
+					{% endfor %}
+				</select>
+			</div>
+		</div>
+		<div class="row">
+			<div class="six columns">
+				<label for="">Available Download Bandwidth</label>
+				<input name="download" class="u-full-width" type="text" placeholder="xxx Mb">
+			</div>
+			<div class="six columns">
+				<label for="">Available Upload Bandwidth</label>
+				<input name="upload" class="u-full-width" type="text" placeholder="xxx Mb">
+			</div>
+		</div>
+		<br>
+		<input class="button-primary" type="submit" value="Save">
+		</form>
+	</div>
+</body>
+</html>

@@ -1,0 +1,85 @@
+body{
+	padding: 0;
+	margin: 0;
+	background-color: #171717;
+	color: #ffffff;
+	font-family: 'Bombardier';
+}
+
+.right{
+	float: right;
+	overflow: hidden;
+}
+
+.btn{
+	display: inline-block;
+	border:1px solid #ffffff;
+	border-radius: 5px;
+	padding: 10px;
+	text-decoration: none;
+	color: #ffffff;
+}
+
+.btn:hover{
+	color: #181818;
+	background: #ffffff;
+}
+
+.btn.small{
+	padding: 2px 4px;
+}
+
+.btn.big{
+	padding: 14px 28px;
+	margin: 10px 0;
+}
+
+.container{
+	width: 800px;
+	margin: 40px auto;
+}
+
+.title{
+	text-align: center;
+}
+
+table{
+	width: 100%;
+	text-align: center;
+}
+
+table thead th{
+	font-size: 18px;
+	background-color: #ffffff;
+	color: #181818;
+}
+
+table tbody td{
+	font-size: 12px;
+}
+
+.danger{
+	color: #f13434;
+}
+
+.alert{
+	color: #ff6e00;
+}
+
+.safe{
+	color: #75cb85;
+}
+
+/*MODAL DIALOG*/
+
+.action{
+	margin: 10px 0 10px 0;
+}
+
+input[type="text"]{
+	padding: 8px 5px;
+	background-color: #353434;
+	color: #ffffff;
+	border: none;
+
+}

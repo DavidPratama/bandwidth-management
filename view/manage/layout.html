@@ -1,0 +1,54 @@
+<html>
+<head>
+	<title>Manage Bandwidth</title>
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="css/default.css" />
+	<link rel="stylesheet" type="text/css" href="css/component.css" />
+	<script src="js/modernizr.custom.js"></script>
+</head>
+<body>
+	<div class="md-modal md-effect-1" id="modal-add">
+		<div class="md-content">
+			<h3>ADD RULE</h3>
+			<div>
+				<form action="manage/add" method="POST">
+				<table>
+					<tr>
+						<td>IP / CLIENT</td>
+						<td><input type="text" name="ip" placeholder="xx.xx.xx.xx/xx"></td>
+					</tr>
+					<tr>
+						<td>DOWNLOAD LIMIT</td>
+						<td><input type="text" name="download" placeholder="<n> Kb/Mb/Gb"></td>
+					</tr>
+					<tr>
+						<td>UPLOAD LIMIT</td>
+						<td><input type="text" name="upload" placeholder="<n> Kb/Mb/Gb"></td>
+					</tr>
+				</table>
+				<div class="right action">
+					<span class="md-close">Cancel</span> or 
+					<input type="submit" href="#" class="md-trigger btn" data-modal="modal-add" value="SAVE">
+				</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	{% block modals %}
+		
+	{% endblock %}
+	{% block content %}
+		
+	{% endblock %}
+	<div class="md-overlay"></div><!-- the overlay element -->
+	<script src="js/classie.js"></script>
+	<script src="js/modalEffects.js"></script>
+	<script>
+		// this is important for IEs
+		var polyfilter_scriptpath = '/js/';
+	</script>
+	<script src="js/cssParser.js"></script>
+	<script src="js/css-filters-polyfill.js"></script>
+</body>
+</html>

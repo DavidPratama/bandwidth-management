@@ -1,0 +1,17 @@
+{
+    "name": "warlock/bw-mgmt",
+    "description": "Just manage banwidth and leave all technical stuff behind",
+    "require": {
+        "twig/twig": "~1.16",
+        "phroute/phroute": "1.*"
+    },
+    "authors": [
+        {
+            "name": "David Pratama",
+            "email": "davidadityapratama@gmail.com"
+        }
+    ],
+    "autoload": {
+        "classmap": ["src/"]
+    }
+}
