@@ -6,6 +6,11 @@
  *    user zoom.
  */
 
+@font-face {
+    font-family: "bombardier";
+    src: url(../fonts/bombardier.ttf);
+}
+
 html {
   font-family: sans-serif; /* 1 */
   -ms-text-size-adjust: 100%; /* 2 */
