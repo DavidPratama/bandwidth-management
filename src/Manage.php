@@ -21,7 +21,7 @@ class Manage {
 	public function index()
 	{
 		echo $this->view->render('manage/index.html', array('data' => $this->conf->all()));
-		$compiler = new Compiler("eth0", "wlan0");
+		$compiler = new Compiler("eth0", "eth1");
 		$compiler->compile($this->conf->all());
 	}
 

@@ -19,9 +19,8 @@ class Compiler{
 		$this->initialize($this->upDev);
 		$id = 1;
 		foreach ($configuration as $ip => $rules) {	
-			exec("sudo /sbin/tc class add dev $this->upDev parent 1:1 classid 1:$id htb rate $rules[upload] ceil $rules[upload] burst 15k");
+			exec("sudo /sbin/tc class add dev $this->upDev parent 1:1 classid 1:$id htb rate $rules[upload] ceil $rules[upload] burst 15k prio $id");
 			exec("sudo /sbin/tc qdisc add dev $this->upDev parent 1:$id handle $id: sfq perturb 10");
-			exec("sudo /sbin/tc filter add dev $this->upDev protocol ip parent 1:0 prio 1 u32 match ip src $ip flowid 1:$id");
 			$id++;
 		}
 
@@ -30,13 +29,20 @@ class Compiler{
 		foreach ($configuration as $ip => $rules) {	
 			exec("sudo /sbin/tc class add dev $this->downDev parent 1:1 classid 1:$id htb rate $rules[download] ceil $rules[download] burst 15k");
 			exec("sudo /sbin/tc qdisc add dev $this->downDev parent 1:$id handle $id: sfq perturb 10");
-			exec("sudo /sbin/tc filter add dev $this->downDev protocol ip parent 1:0 prio 1 u32 match ip dst $ip flowid 1:$id");
+			$id++;
+		}
+
+		$id = 1;
+		foreach($configuration as $ip => $rules) {
+			exec("sudo iptables -t mangle -A POSTROUTING -j CLASSIFY --set-class 1:$id -s $ip");
+			exec("sudo iptables -t mangle -A POSTROUTING -j CLASSIFY --set-class 1:$id -d $ip");
 			$id++;
 		}
 	}
 
 	public function initialize($dev)
 	{
+		exec("sudo iptables -t mangle -F");
 		exec("sudo /sbin/tc qdisc del dev $dev root");
 		exec("sudo /sbin/tc qdisc add dev $dev root handle 1: htb default 0");
 		//default interface speed

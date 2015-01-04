@@ -39,7 +39,7 @@ class System{
 	{
 		$currTime = date('Y-m-d H:i:s');
 		exec("sudo tcpdump -ttttnnr /tmp/bw_usage | grep '$currTime'", $out);
-
+		
 		$up_packets = preg_grep("/$ip\.\d+ >/", $out);
 		$down_packets = preg_grep("/> $ip\.\d+/", $out);
 		$up_bw = $down_bw = 0;
