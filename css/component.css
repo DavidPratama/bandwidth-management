@@ -112,8 +112,8 @@ perspective effects (not including the modals and the overlay).
 }
 
 .md-close{
-	text-decoration: underline;
 	cursor: pointer;
+	font-weight: bold;
 }
 
 /* Individual modal styles with animations/transitions */

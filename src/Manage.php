@@ -20,8 +20,9 @@ class Manage {
 
 	public function index()
 	{
-		echo $this->view->render('manage/index.html', array('data' => $this->conf->all()));
-		$compiler = new Compiler("eth0", "eth1");
+		@session_start();
+		echo $this->view->render('manage/index.html', array('data' => $this->conf->all(), 'shape' => $_SESSION));
+		$compiler = new Compiler("wlan0", "wlan0");
 		$compiler->compile($this->conf->all());
 	}
 
@@ -48,5 +49,19 @@ class Manage {
 	{
 		$this->conf->delete($ip);
 		header("location:$_SERVER[HTTP_REFERER]");
+	}
+
+	public function doShape()
+	{
+		@session_start();
+		//exec("sudo /sbin/tc filter add dev eth0 protocol ip parent  $_POST[http] ");
+		$_SESSION['http'] = $_POST['http'];
+		//exec("sudo /sbin/tc filter add dev eth0 protocol ip parent  $_POST[https] ");
+		$_SESSION['https'] = $_POST['https'];
+		//exec("sudo /sbin/tc filter add dev eth0 protocol ip parent  $_POST[smtp] ");
+		$_SESSION['smtp'] = $_POST['smtp'];
+		//exec("sudo /sbin/tc filter add dev eth0 protocol ip parent  $_POST[ftp] ");
+		$_SESSION['ftp'] = $_POST['ftp'];
+		header("location:/bwmg/manage");
 	}
 }

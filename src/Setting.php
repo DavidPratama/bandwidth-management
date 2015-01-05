@@ -29,5 +29,6 @@ class Setting{
 		$this->system->enableIPForward();
 		$this->system->forwardPacketFrom($_POST['in']);
 		echo $this->system->startBwMonitor($_POST['in']);
+		header("location:/bwmg");
 	}
 }

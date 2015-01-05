@@ -1,5 +1,12 @@
 <?php
 class System{
+	private $conf;
+
+	public function __construct()
+	{
+		$this->conf = new Configuration(new FileBasedConfiguration);
+	}
+
 	public function getIfaceList()
 	{
 		$ifaces = array();
@@ -32,16 +39,74 @@ class System{
 
 	public function getBwUsage()
 	{
-		return $this->getIPBwUsage($_SERVER['HTTP_HOST']);
-	}
-
-	public function getIPBwUsage($ip)
-	{
+		$ip = $_SERVER['HTTP_HOST'];
 		$currTime = date('Y-m-d H:i:s');
 		exec("sudo tcpdump -ttttnnr /tmp/bw_usage | grep '$currTime'", $out);
 		
 		$up_packets = preg_grep("/$ip\.\d+ >/", $out);
 		$down_packets = preg_grep("/> $ip\.\d+/", $out);
+		$up_bw = $down_bw = 0;
+		foreach ($up_packets as $packet) {
+			preg_match("/length (\d+)/", $packet, $length);
+			if(isset($length[1]))
+			$up_bw += $length[1];
+		}
+		foreach ($down_packets as $packet) {
+			preg_match("/length (\d+)/", $packet, $length);
+			if(isset($length[1]))
+			$down_bw += $length[1];
+		}
+		header('Content-type: text/html');
+		return json_encode(array("download" => $down_bw, "upload" => $up_bw));
+	}
+
+	public function getClientsBwUsage()
+	{
+		$return = array();
+		foreach ($this->conf->all() as $ip => $conf) {
+			$return = json_decode($this->getIPBwUsage($ip));
+			echo "<tr class='danger'>
+	                <td>$ip</td>
+	                <td></td>
+	                <td>$conf[download]</td>
+	                <td class='download-usage'>$return->download bit</td>
+	                <td>$conf[upload]</td>
+	                <td class='upload-usage'>$return->upload bit</td>
+	            </tr>";
+		}
+	}
+
+	public function getPortsBwUsage()
+	{
+		$ports = array(80 => "HTTP", 443 => "HTTPS", 21 => "FTP", 25 => "SMTP");
+		$return = array();
+		foreach ($ports as $port => $name) {
+			echo "<tr>
+                <td>$port</td>
+                <td>$name</td>
+                <td>" . $this->getPortBwUsage($port) . " bit</td>
+            </tr>";
+		}
+	}
+
+	public function getPortBwUsage($port)
+	{
+		$currTime = date('Y-m-d H:i:s');
+		exec("sudo tcpdump -ttttnnr /tmp/bw_usage port $port | grep '$currTime'", $packets);
+		$usage = 0;
+		foreach ($packets as $packet) {
+			preg_match("/length (\d+)/", $packet, $length);
+			if(isset($length[1]))
+			$usage += $length[1];
+		}
+		return $usage;
+	}
+
+	public function getIPBwUsage($ip)
+	{
+		$currTime = date('Y-m-d H:i:s');
+		exec("sudo tcpdump -ttttnnr /tmp/bw_usage src net $ip | grep '$currTime'", $up_packets);
+		exec("sudo tcpdump -ttttnnr /tmp/bw_usage dst net $ip | grep '$currTime'", $down_packets);
 		$up_bw = $down_bw = 0;
 		foreach ($up_packets as $packet) {
 			preg_match("/length (\d+)/", $packet, $length);

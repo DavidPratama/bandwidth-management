@@ -14,6 +14,7 @@ return array(
     'FileReadWrite' => $baseDir . '/src/FileReadWrite.php',
     'Manage' => $baseDir . '/src/Manage.php',
     'Monitor' => $baseDir . '/src/Monitor.php',
+    'Report' => $baseDir . '/src/Report.php',
     'Setting' => $baseDir . '/src/Setting.php',
     'System' => $baseDir . '/src/System.php',
 );

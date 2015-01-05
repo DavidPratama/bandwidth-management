@@ -24,11 +24,14 @@ class __TwigTemplate_84e12c3cec77e318fc6e9da7e84552eff9fcc173b0e80e24ed03a9440b6
 \t<link rel=\"stylesheet\" type=\"text/css\" href=\"css/skeleton.css\">
 \t<link rel=\"stylesheet\" type=\"text/css\" href=\"css/normalize.css\">
 \t<link rel=\"stylesheet\" type=\"text/css\" href=\"css/dashboard.css\">
+
 </head>
 <body>
 
 \t<!-- .container is main centered wrapper -->
 <div class=\"container\">
+    <a href=\"manage\" class=\"md-trigger btn big\" data-modal=\"modal-add\">MANAGE</a>
+    <a href=\"setup\" class=\"md-trigger btn big\" data-modal=\"modal-add\">SETUP</a>
   <div class=\"usage\"></div>
   <!-- columns should be the immediate child of a .row -->
   <div class=\"row\">
@@ -63,67 +66,9 @@ class __TwigTemplate_84e12c3cec77e318fc6e9da7e84552eff9fcc173b0e80e24ed03a9440b6
                 <th>UPLOAD LIMIT</th>
                 <th>UPLOAD USAGE</th>
     \t\t</thead>
-            ";
-        // line 48
-        $context['_parent'] = (array) $context;
-        $context['_seq'] = twig_ensure_traversable((isset($context["data"]) ? $context["data"] : null));
-        $context['loop'] = array(
-          'parent' => $context['_parent'],
-          'index0' => 0,
-          'index'  => 1,
-          'first'  => true,
-        );
-        if (is_array($context['_seq']) || (is_object($context['_seq']) && $context['_seq'] instanceof Countable)) {
-            $length = count($context['_seq']);
-            $context['loop']['revindex0'] = $length - 1;
-            $context['loop']['revindex'] = $length;
-            $context['loop']['length'] = $length;
-            $context['loop']['last'] = 1 === $length;
-        }
-        foreach ($context['_seq'] as $context["ip"] => $context["conf"]) {
-            // line 49
-            echo "                <tr class='danger'>
-                    <td>";
-            // line 50
-            echo twig_escape_filter($this->env, $context["ip"], "html", null, true);
-            echo "</td>
-                    <td></td>
-                    <td>";
-            // line 52
-            echo twig_escape_filter($this->env, $this->getAttribute($context["conf"], "download", array()), "html", null, true);
-            echo "</td>
-                    <td id=\"";
-            // line 53
-            echo twig_escape_filter($this->env, $this->getAttribute($context["loop"], "index", array()), "html", null, true);
-            echo "_download\" class=\"download-usage\" data-ip=\"";
-            echo twig_escape_filter($this->env, $context["ip"], "html", null, true);
-            echo "\"></td>
-                    <td>";
-            // line 54
-            echo twig_escape_filter($this->env, $this->getAttribute($context["conf"], "upload", array()), "html", null, true);
-            echo "</td>
-                    <td id=\"";
-            // line 55
-            echo twig_escape_filter($this->env, $this->getAttribute($context["loop"], "index", array()), "html", null, true);
-            echo "_upload\" class=\"upload-usage\" data-ip=\"";
-            echo twig_escape_filter($this->env, $context["ip"], "html", null, true);
-            echo "\"></td>
-                </tr>
-            ";
-            ++$context['loop']['index0'];
-            ++$context['loop']['index'];
-            $context['loop']['first'] = false;
-            if (isset($context['loop']['length'])) {
-                --$context['loop']['revindex0'];
-                --$context['loop']['revindex'];
-                $context['loop']['last'] = 0 === $context['loop']['revindex0'];
-            }
-        }
-        $_parent = $context['_parent'];
-        unset($context['_seq'], $context['_iterated'], $context['ip'], $context['conf'], $context['_parent'], $context['loop']);
-        $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 58
-        echo "    \t</table>\t
+            <tbody class=\"clients\">
+            </tbody>
+    \t</table>\t
     </div>
     <div class=\"three columns\">
     \t<h5><i class=\"fa fa-plus\"></i> SERVICES</h5>
@@ -133,21 +78,8 @@ class __TwigTemplate_84e12c3cec77e318fc6e9da7e84552eff9fcc173b0e80e24ed03a9440b6
                 <th>SERVICE</th>
                 <th>USAGE</th>
             </thead>
-            <tr>
-                <td>80</td>
-                <td>HTTP</td>
-                <td>10M</td>
-            </tr>
-            <tr>
-                <td>80</td>
-                <td>HTTP</td>
-                <td>10M</td>
-            </tr>
-            <tr>
-                <td>80</td>
-                <td>HTTP</td>
-                <td>10M</td>
-            </tr>
+            <tbody class=\"ports\">
+            </tbody>
         </table>    
     </div>
   </div>
@@ -222,7 +154,7 @@ class __TwigTemplate_84e12c3cec77e318fc6e9da7e84552eff9fcc173b0e80e24ed03a9440b6
                         self.initLine();
                     }
                 });
-            }, 2000);
+            }, 1500);
 
             setInterval(function () {
                 \$.ajax({
@@ -275,30 +207,23 @@ class __TwigTemplate_84e12c3cec77e318fc6e9da7e84552eff9fcc173b0e80e24ed03a9440b6
 
     <script type=\"text/javascript\">
        setInterval(function() {
-            \$('.download-usage').each(function(){
-                var that = \$(this);
-                \$.ajax({
-                    url : \"getIPBwUsage/192.168.88.214\",
-                    method : \"GET\",
-                    success : function(data){
-                        var bw = jQuery.parseJSON(data);
-                        that.html(bw.download + \" bit\");
-                    }
-                });
+            //clients
+            \$.ajax({
+                url : \"getClientsBwUsage\",
+                method : \"GET\",
+                success : function(data){
+                    \$(\".clients\").html(data);
+                }
             });
-       
-            \$('.upload-usage').each(function(){
-                var that = \$(this);
-                \$.ajax({
-                    url : \"getIPBwUsage/192.168.88.214\",
-                    method : \"GET\",
-                    success : function(data){
-                        var bw = jQuery.parseJSON(data);
-                        that.html(bw.upload + \" bit\");
-                    }
-                });
+            //ports
+            \$.ajax({
+                url : \"getPortsBwUsage\",
+                method : \"GET\",
+                success : function(data){
+                    \$(\".ports\").html(data);
+                }
             });
-        }, 1000);
+        }, 1800);
         
         
     </script>
@@ -311,13 +236,8 @@ class __TwigTemplate_84e12c3cec77e318fc6e9da7e84552eff9fcc173b0e80e24ed03a9440b6
         return "monitor/layout.html";
     }
 
-    public function isTraitable()
-    {
-        return false;
-    }
-
     public function getDebugInfo()
     {
-        return array (  126 => 58,  107 => 55,  103 => 54,  97 => 53,  93 => 52,  88 => 50,  85 => 49,  68 => 48,  19 => 1,);
+        return array (  19 => 1,);
     }
 }

@@ -4,16 +4,28 @@
 	<div class="container">
 		<h1 class="title">BANWIDTH RULES</h1>
 		<a href="#" class="md-trigger btn big" data-modal="modal-add">ADD RULE</a>
+		<a href="#" class="md-trigger btn big" data-modal="modal-shape">TRAFFIC SHAPING</a>
 		<table>
+			<thead>
+				<th>IP</th>
+				<th>DOWNLOAD LIMIT</th>
+				<th>UPLOAD LIMIT</th>
+				<th>ACTION</th>
+			</thead>
 		{% for ip, conf in data %}
 			<tr class='danger'>
 				<td>{{ ip }}</td>
 				<td>{{ conf.download }}</td>
 				<td>{{ conf.upload }}</td>
-				<td><a href="#" class='md-trigger btn small' data-modal="modal-{{ loop.index }}"><i class='fa fa-pencil'></i> Edit</a><a href={{ "manage/delete/" ~ ip }} class='btn small'><i class='fa fa-trash'></i> Delete</a></td>
+				<td>
+					<a href="#" class='md-trigger btn small' data-modal="modal-{{ loop.index }}"><i class='fa fa-pencil'></i> Edit</a>
+					<a href={{ "manage/delete/" ~ ip }} class='btn small'><i class='fa fa-trash'></i> Delete</a>
+					<a href="#" class='md-trigger btn small' data-modal="report-{{ loop.index }}"><i class='fa fa-file'></i> Report</a>
+				</td>
 			</tr>
 		{% endfor %}
 		</table>
+		<a href="/bwmg" class="md-trigger right btn" data-modal="modal-add">SAVE</a>
 	</div>
 {% endblock %}
 
@@ -41,6 +53,75 @@
 				<div class="right action">
 					<span class="md-close">Cancel</span> or 
 					<input type="submit" href="#" class="md-trigger btn" data-modal="modal-{{ loop.index }}" value="SAVE">
+				</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<div class="md-modal md-effect-1" id="report-{{ loop.index }}">
+		<div class="md-content">
+			<h3>SHOW REPORT</h3>
+			<div>
+				<form action="report" method="POST">
+				<table>
+					<tr>
+						<td>MONTH</td>
+						<td>
+							<select name="month">
+								<option value="1">January</option>
+								<option value="2">Febuary</option>
+								<option value="3">March</option>
+								<option value="4">April</option>
+								<option value="5">May</option>
+								<option value="6">June</option>
+								<option value="7">July</option>
+								<option value="8">August</option>
+								<option value="9">September</option>
+								<option value="10">October</option>
+								<option value="11">November</option>
+								<option value="12">December</option>
+							</select>
+						</td>
+					</tr>
+				</table>
+				<div class="right action">
+					<input type="hidden" name="ip" value="{{ ip }}">
+					<span class="md-close">Cancel</span> or 
+					<input type="submit" href="#" class="md-trigger btn" data-modal="report-{{ loop.index }}" value="SAVE">
+				</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<div class="md-modal md-effect-1" id="modal-shape">
+		<div class="md-content">
+			<h3>TRAFFIC SHAPING</h3>
+			<div>
+				<form action="manage/shape" method="POST">
+				<table>
+					<tr>
+						<td>HTTP</td>
+						<td><input type="text" name="http" placeholder="Percentage" value="{{ shape['http'] }}">%</td>
+					</tr>
+					<tr>
+						<td>HTTPS</td>
+						<td><input type="text" name="https" placeholder="Percentage" value="{{ shape['https'] }}">%</td>
+					</tr>
+					<tr>
+						<td>POP3/SMTP</td>
+						<td><input type="text" name="smtp" placeholder="Percentage" value="{{ shape['smtp'] }}">%</td>
+					</tr>
+					<tr>
+						<td>FTP</td>
+						<td><input type="text" name="ftp" placeholder="Percentage" value="{{ shape['ftp'] }}">%</td>
+					</tr>
+				</table>
+				<div class="right action">
+					<input type="hidden" name="ip" value="{{ ip }}">
+					<span class="md-close">Cancel</span> or 
+					<input type="submit" href="#" class="md-trigger btn" data-modal="report-{{ loop.index }}" value="SAVE">
 				</div>
 				</form>
 			</div>

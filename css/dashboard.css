@@ -29,3 +29,31 @@ tr td{
 .resource .label{
 	text-align: center;
 }
+
+.right{
+	float: right;
+	overflow: hidden;
+}
+
+.btn{
+	display: inline-block;
+	border:1px solid #ffffff;
+	border-radius: 5px;
+	padding: 10px;
+	text-decoration: none;
+	color: #ffffff;
+}
+
+.btn:hover{
+	color: #181818;
+	background: #ffffff;
+}
+
+.btn.small{
+	padding: 2px 4px;
+}
+
+.btn.big{
+	padding: 14px 28px;
+	margin: 10px 0;
+}

@@ -6,11 +6,14 @@
 	<link rel="stylesheet" type="text/css" href="css/skeleton.css">
 	<link rel="stylesheet" type="text/css" href="css/normalize.css">
 	<link rel="stylesheet" type="text/css" href="css/dashboard.css">
+
 </head>
 <body>
 
 	<!-- .container is main centered wrapper -->
 <div class="container">
+    <a href="manage" class="md-trigger btn big" data-modal="modal-add">MANAGE</a>
+    <a href="setup" class="md-trigger btn big" data-modal="modal-add">SETUP</a>
   <div class="usage"></div>
   <!-- columns should be the immediate child of a .row -->
   <div class="row">
@@ -45,16 +48,8 @@
                 <th>UPLOAD LIMIT</th>
                 <th>UPLOAD USAGE</th>
     		</thead>
-            {% for ip, conf in data %}
-                <tr class='danger'>
-                    <td>{{ ip }}</td>
-                    <td></td>
-                    <td>{{ conf.download }}</td>
-                    <td id="{{ loop.index }}_download" class="download-usage" data-ip="{{ ip }}"></td>
-                    <td>{{ conf.upload }}</td>
-                    <td id="{{ loop.index }}_upload" class="upload-usage" data-ip="{{ ip }}"></td>
-                </tr>
-            {% endfor %}
+            <tbody class="clients">
+            </tbody>
     	</table>	
     </div>
     <div class="three columns">
@@ -65,21 +60,8 @@
                 <th>SERVICE</th>
                 <th>USAGE</th>
             </thead>
-            <tr>
-                <td>80</td>
-                <td>HTTP</td>
-                <td>10M</td>
-            </tr>
-            <tr>
-                <td>80</td>
-                <td>HTTP</td>
-                <td>10M</td>
-            </tr>
-            <tr>
-                <td>80</td>
-                <td>HTTP</td>
-                <td>10M</td>
-            </tr>
+            <tbody class="ports">
+            </tbody>
         </table>    
     </div>
   </div>
@@ -154,7 +136,7 @@
                         self.initLine();
                     }
                 });
-            }, 2000);
+            }, 1500);
 
             setInterval(function () {
                 $.ajax({
@@ -207,30 +189,23 @@
 
     <script type="text/javascript">
        setInterval(function() {
-            $('.download-usage').each(function(){
-                var that = $(this);
-                $.ajax({
-                    url : "getIPBwUsage/192.168.88.214",
-                    method : "GET",
-                    success : function(data){
-                        var bw = jQuery.parseJSON(data);
-                        that.html(bw.download + " bit");
-                    }
-                });
+            //clients
+            $.ajax({
+                url : "getClientsBwUsage",
+                method : "GET",
+                success : function(data){
+                    $(".clients").html(data);
+                }
             });
-       
-            $('.upload-usage').each(function(){
-                var that = $(this);
-                $.ajax({
-                    url : "getIPBwUsage/192.168.88.214",
-                    method : "GET",
-                    success : function(data){
-                        var bw = jQuery.parseJSON(data);
-                        that.html(bw.upload + " bit");
-                    }
-                });
+            //ports
+            $.ajax({
+                url : "getPortsBwUsage",
+                method : "GET",
+                success : function(data){
+                    $(".ports").html(data);
+                }
             });
-        }, 1000);
+        }, 1800);
         
         
     </script>
