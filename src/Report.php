@@ -21,9 +21,13 @@ class Report {
 	public function index()
 	{
 		$this->ip = $_POST['ip'];
-		$down = rand(0,50);
-		$up = rand(0,50);
-		$total = $down+$up;
+		if ($_POST['month'] == 1){
+			$down = rand(0,50);
+			$up = rand(0,50);
+			$total = $down+$up;
+		} else {
+			$down = $up = $total = 0;
+		}
 		return $this->view->render('report/index.html', array("ip" => $this->ip, "data" => $this->getGraphData(), "month" => $_POST['month'], "usage" => array("down" => $down, "up" => $up, "total" => $total)));
 	}
 
@@ -42,7 +46,7 @@ class Report {
 	public function getGraphData()
 	{
 		$upData = $downData = array();
-		for ($i=0; $i < 30; $i++) { 
+		for ($i=0; $i < 7; $i++) { 
 			array_push($upData, rand(0, 20) * 1000);
 			array_push($downData, rand(5, 30) * 1000);
 		}
