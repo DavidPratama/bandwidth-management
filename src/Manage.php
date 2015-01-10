@@ -22,7 +22,7 @@ class Manage {
 	{
 		@session_start();
 		echo $this->view->render('manage/index.html', array('data' => $this->conf->all(), 'shape' => $_SESSION));
-		$compiler = new Compiler("wlan0", "wlan0");
+		$compiler = new Compiler("eth0", "wlan0");
 		$compiler->compile($this->conf->all());
 	}
 
