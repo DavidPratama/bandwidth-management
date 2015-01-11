@@ -1,11 +1,13 @@
 <?php
 class Manage {
 	private $conf;
+	private $sysConf;
 	private $view;
 
 	public function __construct()
 	{
 		$this->conf = new Configuration(new FileBasedConfiguration("rules"));
+		$this->sysConf = new Configuration(new FileBasedConfiguration("configuration"));
 
 		//initialize twig template engine
 		$loader = new Twig_Loader_Filesystem('view');
@@ -21,8 +23,11 @@ class Manage {
 	public function index()
 	{
 		@session_start();
+		$systemConf = $this->sysConf->getConf("system"); //get system configuration
+
 		echo $this->view->render('manage/index.html', array('data' => $this->conf->all(), 'shape' => $_SESSION));
-		$compiler = new Compiler("eth0", "wlan0");
+		
+		$compiler = new Compiler($systemConf['iface_in'], $systemConf['iface_out']);
 		$compiler->compile($this->conf->all());
 	}
 

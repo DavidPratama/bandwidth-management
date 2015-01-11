@@ -208,13 +208,13 @@ class __TwigTemplate_84e12c3cec77e318fc6e9da7e84552eff9fcc173b0e80e24ed03a9440b6
     <script type=\"text/javascript\">
        setInterval(function() {
             //clients
-            \$.ajax({
+           /* \$.ajax({
                 url : \"getClientsBwUsage\",
                 method : \"GET\",
                 success : function(data){
                     \$(\".clients\").html(data);
                 }
-            });
+            });*/
             //ports
             \$.ajax({
                 url : \"getPortsBwUsage\",

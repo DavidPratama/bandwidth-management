@@ -40,7 +40,11 @@ class Setting{
 		$config->add("iface_out", $_POST['out']);
 		$config->add("base_download", $_POST['base_download']);
 		$config->add("base_upload", $_POST['base_upload']);
-		$this->conf->add("system" ,$config);
+		
+		if (!$this->conf->add("system" ,$config)) {
+			$this->conf->edit("system" ,$config);
+		}	
+		
 		header("location:/bwmg");
 	}
 }

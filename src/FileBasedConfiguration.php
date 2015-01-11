@@ -35,6 +35,8 @@ class FileBasedConfiguration implements ConfigurationDriver{
 				exec("mv $this->dir" . $ip . " $this->dir" . $newName);
 				exec("chmod $this->dir" . $ip . " 777");
 				exec("rm $this->dir" . $ip);
+			} else {
+				$newName = $name;
 			}
 		}
 		$this->file->write($this->dir . $newName, $newConf);
