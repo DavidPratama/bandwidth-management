@@ -42,6 +42,14 @@ class Configuration{
 		return false;
 	}
 
+	public function getConf($name)
+	{
+		if($this->drv->exists($name)) {
+			return $this->drv->getConf($name);
+		}
+		return false;
+	}	
+
 	public function all()
 	{
 		return $this->drv->all();

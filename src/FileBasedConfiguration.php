@@ -54,6 +54,11 @@ class FileBasedConfiguration implements ConfigurationDriver{
 		$this->file->close();
 	}
 
+	public function getConf($name)
+	{
+		return $this->rawConfigurationToArray($name);
+	}
+
 	public function all()
 	{
 		$conf = array();
