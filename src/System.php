@@ -4,7 +4,7 @@ class System{
 
 	public function __construct()
 	{
-		$this->conf = new Configuration(new FileBasedConfiguration);
+		$this->conf = new Configuration(new FileBasedConfiguration("rules"));
 	}
 
 	public function getIfaceList()

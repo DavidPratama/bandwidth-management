@@ -2,8 +2,11 @@
 class FileBasedConfiguration implements ConfigurationDriver{
 	private $file;
 
-	public function __construct()
+	private $dir;
+
+	public function __construct($dir)
 	{
+		$this->dir = $dir . "/";
 		$this->file = new FileReadWrite;
 	}
 
@@ -12,7 +15,7 @@ class FileBasedConfiguration implements ConfigurationDriver{
 		$ip = str_replace("/", "_", $name);
 		
 		foreach ($conf->get() as $entity => $value) {
-		$this->file->append("configuration/" . $ip, $entity . "=" . $value . ";");
+		$this->file->append($this->dir . $ip, $entity . "=" . $value . ";");
 		}
 		$this->file->close();
 	}
@@ -20,7 +23,7 @@ class FileBasedConfiguration implements ConfigurationDriver{
 	public function edit($name, ConfigurationEntity $conf)
 	{
 		$ip = str_replace("/", "_", $name);
-		$str = $this->file->read("configuration/" . $ip);
+		$str = $this->file->read($this->dir . $ip);
 		$this->file->close();
 		$newConf = null;
 		foreach ($conf->get() as $entity => $value) {
@@ -29,12 +32,12 @@ class FileBasedConfiguration implements ConfigurationDriver{
 			echo $entity;
 			if ($entity == "ip") {
 				$newName = str_replace("/", "_", $value);
-				exec("mv configuration/" . $ip . " configuration/" . $newName);
-				exec("chmod configuration/" . $ip . " 777");
-				exec("rm configuration/" . $ip);
+				exec("mv $this->dir" . $ip . " $this->dir" . $newName);
+				exec("chmod $this->dir" . $ip . " 777");
+				exec("rm $this->dir" . $ip);
 			}
 		}
-		$this->file->write("configuration/" . $newName, $newConf);
+		$this->file->write($this->dir . $newName, $newConf);
 		$this->file->close();
 	}
 
@@ -42,7 +45,7 @@ class FileBasedConfiguration implements ConfigurationDriver{
 	{
 		$ip = str_replace("/", "_", $name);
 		echo $ip . "as";
-		$this->file->delete("configuration/" . $ip);
+		$this->file->delete($this->dir . $ip);
 	}
 
 	public function get($name)
@@ -54,7 +57,7 @@ class FileBasedConfiguration implements ConfigurationDriver{
 	public function all()
 	{
 		$conf = array();
-		foreach ($this->file->lists("configuration") as $name) {
+		foreach ($this->file->lists($this->dir) as $name) {
 			if ($name != '.' && $name != '..') {
 
 				$ip = str_replace("_", "/", $name);
@@ -68,13 +71,13 @@ class FileBasedConfiguration implements ConfigurationDriver{
 	public function exists($name)
 	{
 		$ip = str_replace("/", "_", $name);
-		return $this->file->exists("configuration/" . $ip);
+		return $this->file->exists($this->dir . $ip);
 	}
 
 	private function rawConfigurationToArray($name)
 	{
 		$entities = array();
-		$configuration = array_filter(explode(";", $this->get("configuration/" . $name)));
+		$configuration = array_filter(explode(";", $this->get($this->dir . $name)));
 		foreach ($configuration as $idx => $entity) {
 			$temp = explode("=", $entity);
 			$entities[$temp[0]] = $temp[1];
