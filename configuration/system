@@ -1,0 +1,1 @@
+iface_in=wlan0;iface_out=eth0;base_download=100Mbit;base_upload=100Mbit;

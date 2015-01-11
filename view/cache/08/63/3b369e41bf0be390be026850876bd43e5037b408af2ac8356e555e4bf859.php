@@ -88,11 +88,11 @@ class __TwigTemplate_08633b369e41bf0be390be026850876bd43e5037b408af2ac8356e555e4
 \t\t<div class=\"row\">
 \t\t\t<div class=\"six columns\">
 \t\t\t\t<label for=\"\">Available Download Bandwidth</label>
-\t\t\t\t<input name=\"download\" class=\"u-full-width\" type=\"text\" placeholder=\"xxx Mb\">
+\t\t\t\t<input name=\"base_download\" class=\"u-full-width\" type=\"text\" placeholder=\"xxx Mb\">
 \t\t\t</div>
 \t\t\t<div class=\"six columns\">
 \t\t\t\t<label for=\"\">Available Upload Bandwidth</label>
-\t\t\t\t<input name=\"upload\" class=\"u-full-width\" type=\"text\" placeholder=\"xxx Mb\">
+\t\t\t\t<input name=\"base_upload\" class=\"u-full-width\" type=\"text\" placeholder=\"xxx Mb\">
 \t\t\t</div>
 \t\t</div>
 \t\t<br>

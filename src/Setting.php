@@ -4,6 +4,8 @@ class Setting{
 
 	private $system;
 
+	private $conf;
+
 	public function __construct()
 	{
 		//initialize twig template engine
@@ -17,6 +19,8 @@ class Setting{
 		$this->view->addExtension(new Twig_Extension_Debug());
 
 		$this->system = new System;
+
+		$this->conf = new Configuration(new FileBasedConfiguration("configuration"));
 	}
 
 	public function setup()
@@ -28,7 +32,15 @@ class Setting{
 	{
 		$this->system->enableIPForward();
 		$this->system->forwardPacketFrom($_POST['in']);
-		echo $this->system->startBwMonitor($_POST['in']);
+		$this->system->startBwMonitor($_POST['out']);
+
+		//save configuration
+		$config = new ConfigurationEntity;
+		$config->add("iface_in", $_POST['in']);
+		$config->add("iface_out", $_POST['out']);
+		$config->add("base_download", $_POST['base_download']);
+		$config->add("base_upload", $_POST['base_upload']);
+		$this->conf->add("system" ,$config);
 		header("location:/bwmg");
 	}
 }
