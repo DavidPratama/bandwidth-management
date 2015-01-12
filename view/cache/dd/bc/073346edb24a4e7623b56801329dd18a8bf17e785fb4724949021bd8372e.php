@@ -133,7 +133,7 @@ class __TwigTemplate_ddbc073346edb24a4e7623b56801329dd18a8bf17e785fb4724949021bd
             echo twig_escape_filter($this->env, $this->getAttribute($context["loop"], "index", array()), "html", null, true);
             echo "\">
 \t\t<div class=\"md-content\">
-\t\t\t<h3>ADD RULE</h3>
+\t\t\t<h3>EDIT RULE</h3>
 \t\t\t<div>
 \t\t\t\t<form action=\"manage/edit/";
             // line 38

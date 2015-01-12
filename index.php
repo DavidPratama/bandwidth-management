@@ -7,7 +7,11 @@
 
 	$router->get('/bwmg/manage', array('Manage', 'index'));
 
+	$router->post('/bwmg/manage/add', array('Manage', 'doAdd'));	
+
 	$router->post('/bwmg/manage/edit/{ip:[a-zA-Z0-9/.]+}', array('Manage', 'doEdit'));
+
+	$router->get('/bwmg/manage/delete/{ip:[a-zA-Z0-9/.]+}', array('Manage', 'doDelete'));
 
 	$router->get('/bwmg', array('Monitor', 'index'));
 
