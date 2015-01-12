@@ -7,13 +7,7 @@
 
 	$router->get('/bwmg/manage', array('Manage', 'index'));
 
-	$router->post('/bwmg/manage/add', array('Manage', 'doAdd'));
-
 	$router->post('/bwmg/manage/edit/{ip:[a-zA-Z0-9/.]+}', array('Manage', 'doEdit'));
-
-	$router->get('/bwmg/manage/delete/{ip:[a-zA-Z0-9/.]+}', array('Manage', 'doDelete'));
-
-	$router->post('/bwmg/manage/shape', array('Manage', 'doShape'));	
 
 	$router->get('/bwmg', array('Monitor', 'index'));
 
@@ -35,7 +29,17 @@
 
 	$router->post('/bwmg/report', array('Report', 'index'));
 
-	$router->get('/bwmg/getGraphData', array('Report', 'getGraphData'));
+	$router->get('/bwmg/getGraphData/{month}', array('Report', 'getGraphData'));
+
+	$router->get('/bwmg/login', array('Setting', 'loginPage'));
+
+	$router->post('/bwmg/login', array('Setting', 'login'));
+
+	$router->get('/bwmg/logout', function(){
+		@session_start();
+		session_destroy();
+		header("location:/bwmg/");
+	});
 
 	# NB. You can cache this object so you don't have to create the routes each request - massive speed gains
 	$dispatcher = new Phroute\Dispatcher($router);

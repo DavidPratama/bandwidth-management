@@ -23,6 +23,24 @@ class Setting{
 		$this->conf = new Configuration(new FileBasedConfiguration("configuration"));
 	}
 
+	public function loginPage()
+	{
+		return $this->view->render('login.html');
+	}
+
+	public function login()
+	{
+		$users = include(realpath(__DIR__ . '/..') . "/users.php");
+		if (array_key_exists($_POST['username'], $users) && $users[$_POST['username']] == $_POST['password']) {
+			@session_start();
+			$_SESSION['logged_in'] = $_POST['username'];
+
+			header("location:/bwmg/");
+		} else {
+			header("location:$_SERVER[HTTP_REFERER]");
+		}
+	}
+
 	public function setup()
 	{
 		return $this->view->render('configure/setup.html', array('ifaces' => $this->system->getIfaceList()));

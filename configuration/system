@@ -1,1 +1,1 @@
-iface_in=eth0;iface_out=wlan0;base_download=;base_upload=;
+iface_in=wlan0;iface_out=wlan0;base_download=;base_upload=;

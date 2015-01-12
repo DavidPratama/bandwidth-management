@@ -33,7 +33,7 @@ class System{
 
 	public function startBwMonitor($iface)
 	{
-		$command = "sudo tcpdump -i $iface -v -w /tmp/bw_usage";
+		$command = "sudo tcpdump -i $iface -v -w /root/bw_usage";
 		$pid = shell_exec(sprintf('%s > /dev/null 2>&1 & echo $!', $command));
 	}
 
@@ -41,7 +41,7 @@ class System{
 	{
 		$ip = $_SERVER['HTTP_HOST'];
 		$currTime = date('Y-m-d H:i:s');
-		exec("sudo tcpdump -ttttnnr /tmp/bw_usage | grep '$currTime'", $out);
+		exec("sudo tcpdump -ttttnnr /root/bw_usage | grep '$currTime'", $out);
 		
 		$up_packets = preg_grep("/$ip\.\d+ >/", $out);
 		$down_packets = preg_grep("/> $ip\.\d+/", $out);
@@ -92,7 +92,7 @@ class System{
 	public function getPortBwUsage($port)
 	{
 		$currTime = date('Y-m-d H:i:s');
-		exec("sudo tcpdump -ttttnnr /tmp/bw_usage port $port | grep '$currTime'", $packets);
+		exec("sudo tcpdump -ttttnnr /root/bw_usage port $port | grep '$currTime'", $packets);
 		$usage = 0;
 		foreach ($packets as $packet) {
 			preg_match("/length (\d+)/", $packet, $length);
@@ -105,8 +105,8 @@ class System{
 	public function getIPBwUsage($ip)
 	{
 		$currTime = date('Y-m-d H:i:s');
-		exec("sudo tcpdump -ttttnnr /tmp/bw_usage src net $ip | grep '$currTime'", $up_packets);
-		exec("sudo tcpdump -ttttnnr /tmp/bw_usage dst net $ip | grep '$currTime'", $down_packets);
+		exec("sudo tcpdump -ttttnnr /root/bw_usage src net $ip | grep '$currTime'", $up_packets);
+		exec("sudo tcpdump -ttttnnr /root/bw_usage dst net $ip | grep '$currTime'", $down_packets);
 		$up_bw = $down_bw = 0;
 		foreach ($up_packets as $packet) {
 			preg_match("/length (\d+)/", $packet, $length);

@@ -32,6 +32,7 @@ class __TwigTemplate_84e12c3cec77e318fc6e9da7e84552eff9fcc173b0e80e24ed03a9440b6
 <div class=\"container\">
     <a href=\"manage\" class=\"md-trigger btn big\" data-modal=\"modal-add\">MANAGE</a>
     <a href=\"setup\" class=\"md-trigger btn big\" data-modal=\"modal-add\">SETUP</a>
+    <a href=\"logout\" class=\"md-trigger btn big\" data-modal=\"modal-add\">LOGOUT</a>
   <div class=\"usage\"></div>
   <!-- columns should be the immediate child of a .row -->
   <div class=\"row\">
@@ -208,13 +209,13 @@ class __TwigTemplate_84e12c3cec77e318fc6e9da7e84552eff9fcc173b0e80e24ed03a9440b6
     <script type=\"text/javascript\">
        setInterval(function() {
             //clients
-           /* \$.ajax({
+            \$.ajax({
                 url : \"getClientsBwUsage\",
                 method : \"GET\",
                 success : function(data){
                     \$(\".clients\").html(data);
                 }
-            });*/
+            });
             //ports
             \$.ajax({
                 url : \"getPortsBwUsage\",

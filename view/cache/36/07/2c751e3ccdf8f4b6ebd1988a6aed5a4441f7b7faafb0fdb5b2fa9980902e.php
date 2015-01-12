@@ -53,46 +53,42 @@ class __TwigTemplate_36072c751e3ccdf8f4b6ebd1988a6aed5a4441f7b7faafb0fdb5b2fa998
 \t<script type=\"text/javascript\" src=\"/bwmg/js/jquery-1.7.2.min.js\"></script>
     <script type=\"text/javascript\">
             \$.ajax({
-                url:'getGraphData',
+                url:\"getGraphData/";
+        // line 26
+        echo twig_escape_filter($this->env, (isset($context["month"]) ? $context["month"] : null), "html", null, true);
+        echo "\",
                 method:'GET',
                 success:function(data){
                     var chart = jQuery.parseJSON(data);
-                    if (";
-        // line 30
-        echo twig_escape_filter($this->env, (isset($context["month"]) ? $context["month"] : null), "html", null, true);
-        echo " != 1) {
-                        chart = null
-                        
-                    } else {
-                        var bwChartData = {
-                            labels : [\"1\", \"2\", \"3\", \"4\", \"5\", \"6\", \"7\", \"8\", \"9\", \"10\", \"11\", \"12\", \"13\", \"14\", \"15\", \"16\", \"17\", \"18\", \"19\", \"20\", \"21\", \"22\", \"23\", \"24\", \"25\", \"26\", \"27\", \"28\", \"29\", \"30\"],
-                            datasets : [
-                                {
-                                    fillColor : \"rgba(151,187,205,0.5)\",
-                                    strokeColor : \"rgba(151,187,205,1)\",
-                                    pointColor : \"rgba(151,187,205,1)\",
-                                    pointStrokeColor : \"#fff\",
-                                    data : chart.download
-                                },
-                                {
-                                    fillColor : \"rgba(0,187,0,0.5)\",
-                                    strokeColor : \"rgba(0,255,0,1)\",
-                                    pointColor : \"rgba(0,100,0,1)\",
-                                    pointStrokeColor : \"#fff\",
-                                    data : chart.upload
-                                }
-                            ]
-                        };
-                        
-                        var options = {
-                            animation : false,
-                            responsive:true,
-                            segmentShowStroke : false,
-                        };
-                        
-                        var ctx = \$(\"#bw\").get(0).getContext(\"2d\");
-                        var myLine = new Chart(ctx).Line(bwChartData, options );
-                    }
+                    var bwChartData = {
+                        labels : chart.label,
+                        datasets : [
+                            {
+                                fillColor : \"rgba(151,187,205,0.5)\",
+                                strokeColor : \"rgba(151,187,205,1)\",
+                                pointColor : \"rgba(151,187,205,1)\",
+                                pointStrokeColor : \"#fff\",
+                                data : chart.download
+                            },
+                            {
+                                fillColor : \"rgba(0,187,0,0.5)\",
+                                strokeColor : \"rgba(0,255,0,1)\",
+                                pointColor : \"rgba(0,100,0,1)\",
+                                pointStrokeColor : \"#fff\",
+                                data : chart.upload
+                            }
+                        ]
+                    };
+                    console.log(chart.label);
+                    
+                    var options = {
+                        animation : false,
+                        responsive:true,
+                        segmentShowStroke : false,
+                    };
+                    
+                    var ctx = \$(\"#bw\").get(0).getContext(\"2d\");
+                    var myLine = new Chart(ctx).Line(bwChartData, options );
                 }
             });
     </script>
@@ -112,6 +108,6 @@ class __TwigTemplate_36072c751e3ccdf8f4b6ebd1988a6aed5a4441f7b7faafb0fdb5b2fa998
 
     public function getDebugInfo()
     {
-        return array (  62 => 30,  41 => 16,  35 => 15,  19 => 1,);
+        return array (  58 => 26,  41 => 16,  35 => 15,  19 => 1,);
     }
 }

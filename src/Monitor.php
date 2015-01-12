@@ -19,6 +19,10 @@ class Monitor {
 
 	public function index()
 	{
+		@session_start();
+		if(!isset($_SESSION['logged_in'])) {
+			header('location:/bwmg/login');
+		}
 		echo $this->view->render('monitor/layout.html', array("data" => $this->conf->all(), "monitor" => new System));
 	}
 
