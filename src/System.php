@@ -31,9 +31,9 @@ class System{
 		exec("sudo iptables -t nat -A POSTROUTING -o $outIface -j MASQUERADE");
 	}
 
-	public function startBwMonitor($iface)
+	public function startBwMonitor()
 	{
-		$command = "sudo tcpdump -i $iface -v -w /root/bw_usage";
+		$command = "sudo tcpdump -i any -v -w /root/bw_usage";
 		$pid = shell_exec(sprintf('%s > /dev/null 2>&1 & echo $!', $command));
 	}
 

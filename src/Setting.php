@@ -50,7 +50,7 @@ class Setting{
 	{
 		$this->system->enableIPForward();
 		$this->system->forwardPacketFrom($_POST['in']);
-		$this->system->startBwMonitor($_POST['out']);
+		$this->system->startBwMonitor();
 
 		//save configuration
 		$config = new ConfigurationEntity;
